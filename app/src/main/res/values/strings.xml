@@ -26,9 +26,10 @@
     <string name="logout_confirmation">Are you sure want to logout?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    
+
     <string name="restaurant_name">Restaurant Name</string>
     <string name="Address">Address</string>
     <string name="coordinate">Coordinate</string>
     <string name="image_shop">Image of Shop</string>
+    <string name="edit">Edit</string>
 </resources>

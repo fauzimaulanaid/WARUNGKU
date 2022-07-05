@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import com.fauzimaulana.warungku.R
 import com.fauzimaulana.warungku.databinding.ActivityMainBinding
+import com.fauzimaulana.warungku.detail.DetailActivity
 import com.fauzimaulana.warungku.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -32,6 +33,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
             return
+        }
+
+        binding.testButton.setOnClickListener {
+            val intent = Intent(this, DetailActivity::class.java)
+            startActivity(intent)
         }
     }
 

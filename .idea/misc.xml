@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/WARUNGKU/app/src/main/res/drawable-v24/baseline_logout_24.xml" value="0.1305" />
+        <entry key="..\:/AndroidStudioProjects/WARUNGKU/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.1305" />
+        <entry key="..\:/AndroidStudioProjects/WARUNGKU/app/src/main/res/layout/activity_detail.xml" value="0.18" />
         <entry key="..\:/AndroidStudioProjects/WARUNGKU/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/WARUNGKU/app/src/main/res/layout/activity_main.xml" value="0.19739583333333333" />
         <entry key="..\:/AndroidStudioProjects/WARUNGKU/app/src/main/res/layout/activity_register.xml" value="0.2" />
