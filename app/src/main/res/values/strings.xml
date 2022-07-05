@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">WARUNGKU</string>
+
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email_or_phone">Email or Phone Number</string>
+    <string name="password">Password</string>
+    <string name="retype_password">Retype Password</string>
+    <string name="register_please">Belum punya akun? silahkan register</string>
+    <string name="hint_email_or_phone">Please input your email or phone number</string>
+    <string name="hint_password">Please input your password</string>
+    <string name="copyright">©2022 Muhammad Fauzi Maulana</string>
+    <string name="test">Test</string>
 </resources>
