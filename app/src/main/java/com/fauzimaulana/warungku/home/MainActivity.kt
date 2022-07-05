@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat.startActivity
 import com.fauzimaulana.warungku.databinding.ActivityMainBinding
 import com.fauzimaulana.warungku.login.LoginActivity
+import com.fauzimaulana.warungku.register.RegisterActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.testButton.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             finish()
         }
