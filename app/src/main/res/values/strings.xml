@@ -6,7 +6,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="retype_password">Re-Password</string>
-    <string name="register_please">Belum punya akun? silahkan register</string>
+    <string name="register_please">Don\'t have an account? Register now!</string>
     <string name="hint_email_or_phone">example@example.com</string>
     <string name="hint_password">Must at least 6 character</string>
     <string name="hint_retype_password">Retype your password for confirmation</string>
@@ -21,4 +21,9 @@
     <string name="retype_password_empty">You should confirm your password by retype it</string>
     <string name="password_different">Password does not match</string>
 
+    <string name="logout">Logout</string>
+    <string name="alert">Alert</string>
+    <string name="logout_confirmation">Are you sure want to logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
