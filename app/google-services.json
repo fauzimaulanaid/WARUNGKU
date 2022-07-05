@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "733884856149",
+    "project_id": "warungku-9ae4d",
+    "storage_bucket": "warungku-9ae4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:733884856149:android:70cc9b0de7bddc5953a1dc",
+        "android_client_info": {
+          "package_name": "com.fauzimaulana.warungku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "733884856149-h65hrut13sd2kphg8s8chqbs8iuitl1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDA-L-ethtp8LeVJFV9eBat6cX2DftA6Ow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "733884856149-h65hrut13sd2kphg8s8chqbs8iuitl1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
