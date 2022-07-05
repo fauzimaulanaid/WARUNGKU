@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.startActivity
 import com.fauzimaulana.warungku.R
 import com.fauzimaulana.warungku.databinding.ActivityMainBinding
 import com.fauzimaulana.warungku.login.LoginActivity
-import com.fauzimaulana.warungku.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
