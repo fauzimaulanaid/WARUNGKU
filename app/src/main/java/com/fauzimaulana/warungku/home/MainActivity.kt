@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import com.fauzimaulana.warungku.R
+import com.fauzimaulana.warungku.addupdate.AddUpdateActivity
 import com.fauzimaulana.warungku.databinding.ActivityMainBinding
 import com.fauzimaulana.warungku.detail.DetailActivity
 import com.fauzimaulana.warungku.login.LoginActivity
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.testButton.setOnClickListener {
-            val intent = Intent(this, DetailActivity::class.java)
+            val intent = Intent(this, AddUpdateActivity::class.java)
             startActivity(intent)
         }
     }
