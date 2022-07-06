@@ -6,13 +6,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzimaulana.warungku.R
 import com.fauzimaulana.warungku.addupdate.AddUpdateActivity
 import com.fauzimaulana.warungku.databinding.ActivityMainBinding
 import com.fauzimaulana.warungku.detail.DetailActivity
 import com.fauzimaulana.warungku.login.LoginActivity
+import com.fauzimaulana.warungku.model.Store
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseDatabase
+    private lateinit var adapter: StoreAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +43,21 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        binding.testButton.setOnClickListener {
+        db = Firebase.database
+        val storeRef = db.reference.child(STORE_CHILD)
+
+        val manager = LinearLayoutManager(this)
+        manager.stackFromEnd = true
+        manager.reverseLayout = true
+        binding.rvStore.layoutManager = manager
+
+        val options = FirebaseRecyclerOptions.Builder<Store>()
+            .setQuery(storeRef, Store::class.java)
+            .build()
+        adapter = StoreAdapter(options)
+        binding.rvStore.adapter = adapter
+
+        binding.fabAdd.setOnClickListener {
             val intent = Intent(this, AddUpdateActivity::class.java)
             startActivity(intent)
         }
@@ -74,8 +95,22 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter.startListening()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adapter.stopListening()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        private const val STORE_CHILD = "store"
     }
 }

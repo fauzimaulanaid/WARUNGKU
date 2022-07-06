@@ -46,4 +46,7 @@
     <string name="name_empty">Store name cannot be empty</string>
     <string name="coordinate_empty">Coordinate cannot be empty</string>
     <string name="address_empty">Address cannot be empty</string>
+    <string name="add_store">Add Store</string>
+
+    <string name="coordinate_placeholder">%f, %f</string>
 </resources>
