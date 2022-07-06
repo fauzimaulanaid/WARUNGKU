@@ -147,7 +147,7 @@
 
     <include
         android:id="@+id/viewUserLogin"
-        layout="@layout/view_user_login"
+        layout="@layout/view_success"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
