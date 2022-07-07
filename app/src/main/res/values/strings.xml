@@ -49,4 +49,8 @@
     <string name="add_store">Add Store</string>
 
     <string name="coordinate_placeholder">%f, %f</string>
+    <string name="delete">Delete</string>
+
+    <string name="save">Save</string>
+
 </resources>

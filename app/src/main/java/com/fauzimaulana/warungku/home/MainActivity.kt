@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzimaulana.warungku.R
 import com.fauzimaulana.warungku.addupdate.AddUpdateActivity
 import com.fauzimaulana.warungku.databinding.ActivityMainBinding
-import com.fauzimaulana.warungku.detail.DetailActivity
 import com.fauzimaulana.warungku.login.LoginActivity
 import com.fauzimaulana.warungku.model.Store
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -34,15 +33,6 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        auth = Firebase.auth
-        val user = auth.currentUser
-        if (user == null) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-            return
-        }
-
         db = Firebase.database
         val storeRef = db.reference.child(STORE_CHILD)
 
@@ -54,12 +44,26 @@ class MainActivity : AppCompatActivity() {
         val options = FirebaseRecyclerOptions.Builder<Store>()
             .setQuery(storeRef, Store::class.java)
             .build()
+
         adapter = StoreAdapter(options)
         binding.rvStore.adapter = adapter
+        adapter.startListening()
 
         binding.fabAdd.setOnClickListener {
             val intent = Intent(this, AddUpdateActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        auth = Firebase.auth
+        val user = auth.currentUser
+        if (user == null) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
         }
     }
 
@@ -95,18 +99,9 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter.startListening()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        adapter.stopListening()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
+        adapter.stopListening()
         _binding = null
     }
 

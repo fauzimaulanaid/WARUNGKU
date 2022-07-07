@@ -141,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:gravity="top"
-                    android:hint="@string/hint_coordinate"
+                    android:hint="@string/hint_address"
                     android:inputType="textMultiLine"
                     android:lines="2"
                     android:singleLine="false"/>
