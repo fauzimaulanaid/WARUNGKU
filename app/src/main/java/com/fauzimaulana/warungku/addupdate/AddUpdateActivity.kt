@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,18 +15,19 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.fauzimaulana.warungku.R
 import com.fauzimaulana.warungku.databinding.ActivityAddUpdateBinding
-import com.fauzimaulana.warungku.detail.DetailActivity
 import com.fauzimaulana.warungku.home.MainActivity
 import com.fauzimaulana.warungku.model.Store
+import com.fauzimaulana.warungku.utils.CheckNetworkConnection
 import com.fauzimaulana.warungku.utils.Utils
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -36,7 +38,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.io.FileInputStream
-import java.util.jar.Attributes
 
 class AddUpdateActivity : AppCompatActivity() {
 
@@ -52,12 +53,16 @@ class AddUpdateActivity : AppCompatActivity() {
     private var isEdit = false
     private var store: Store? = null
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         storage = Firebase.storage
 
@@ -104,6 +109,9 @@ class AddUpdateActivity : AppCompatActivity() {
         binding.buttonGallery.setOnClickListener {
             startGallery()
         }
+        binding.buttonCoordinate.setOnClickListener {
+            getMyCoordinate()
+        }
         binding.buttonSubmit.setOnClickListener {
             val storeName = binding.nameEditText.text.toString()
             val coordinate = binding.coordinateEditText.text.toString()
@@ -119,24 +127,31 @@ class AddUpdateActivity : AppCompatActivity() {
                     binding.addressEditTextLayout.error = resources.getString(R.string.address_empty)
                 }
                 else -> {
-                    binding.contentAddUpdate.visibility = View.GONE
-                    binding.viewLoading.root.visibility = View.VISIBLE
-                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                    val latLngCoordinate = coordinate.split(",")
-                    val lat: Double = latLngCoordinate[0].toDouble()
-                    val lon: Double = latLngCoordinate[1].toDouble()
-                    if (isEdit) {
-                        if (getFile != null) {
-                            isPhotoUpdated(storeName, lat, lon, address)
+                    val isConnected: Boolean = CheckNetworkConnection().networkCheck(this)
+                    if (isConnected) {
+                        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                        val latLngCoordinate = coordinate.split(",")
+                        val lat: Double = "${latLngCoordinate[0]}.${latLngCoordinate[1]}".toDouble()
+                        val lon: Double = "${latLngCoordinate[2]}.${latLngCoordinate[3]}".toDouble()
+                        if (isEdit) {
+                            binding.contentAddUpdate.visibility = View.GONE
+                            binding.viewLoading.root.visibility = View.VISIBLE
+                            if (getFile != null) {
+                                isPhotoUpdated(storeName, lat, lon, address)
+                            } else {
+                                updateStore(store?.photoUrl!!, storeName, lat, lon, address)
+                            }
                         } else {
-                            updateStore(store?.photoUrl!!, storeName, lat, lon, address)
+                            if (getFile != null) {
+                                binding.contentAddUpdate.visibility = View.GONE
+                                binding.viewLoading.root.visibility = View.VISIBLE
+                                addStore(storeName, lat, lon, address)
+                            } else {
+                                Toast.makeText(this, "Please choose image first", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     } else {
-                        if (getFile != null) {
-                            addStore(storeName, lat, lon, address)
-                        } else {
-                            Toast.makeText(this, "Please choose image first", Toast.LENGTH_SHORT).show()
-                        }
+                        Utils.showAlertNoInternet(this)
                     }
                 }
             }
@@ -158,6 +173,52 @@ class AddUpdateActivity : AppCompatActivity() {
                 Toast.makeText(this, "Did not get permission to access camera", Toast.LENGTH_SHORT).show()
                 finish()
             }
+        }
+    }
+
+    private val requestLocationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    // Precise location access granted.
+                    getMyCoordinate()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    // Only approximate location access granted.
+                    getMyCoordinate()
+                }
+                else -> {
+                    // No location access granted.
+                }
+            }
+        }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getMyCoordinate() {
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    val coordinate = resources.getString(R.string.coordinate_placeholder, location.latitude, location.longitude)
+                    binding.coordinateEditText.setText(coordinate)
+                } else {
+                    Toast.makeText(this, "Location not found, we can get your coordinate, please try again", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            requestLocationPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
         }
     }
 
@@ -300,6 +361,25 @@ class AddUpdateActivity : AppCompatActivity() {
             getFile = myFIle
             binding.previewImageShop.setImageURI(selectedImg)
         }
+    }
+
+    private fun showAlertDialog() {
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        with(alertDialogBuilder) {
+            setTitle(resources.getString(R.string.changed_lost))
+            setMessage(resources.getString(R.string.confirmation))
+            setCancelable(false)
+            setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
+                finish()
+            }
+            setNegativeButton(resources.getString(R.string.no)) { dialog, _ -> dialog.cancel()}
+        }
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+    override fun onBackPressed() {
+        showAlertDialog()
     }
 
     override fun onSupportNavigateUp(): Boolean {

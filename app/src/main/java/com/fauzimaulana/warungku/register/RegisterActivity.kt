@@ -14,6 +14,8 @@ import android.widget.Toast
 import com.fauzimaulana.warungku.R
 import com.fauzimaulana.warungku.databinding.ActivityRegisterBinding
 import com.fauzimaulana.warungku.login.LoginActivity
+import com.fauzimaulana.warungku.utils.CheckNetworkConnection
+import com.fauzimaulana.warungku.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -57,7 +59,12 @@ class RegisterActivity : AppCompatActivity() {
                     binding.retypePasswordEditTextLayout.error = resources.getString(R.string.password_different)
                 }
                 else -> {
-                    registerUser(email, password)
+                    val isConnected: Boolean = CheckNetworkConnection().networkCheck(this)
+                    if (isConnected) {
+                        registerUser(email, password)
+                    } else {
+                        Utils.showAlertNoInternet(this)
+                    }
                 }
             }
         }

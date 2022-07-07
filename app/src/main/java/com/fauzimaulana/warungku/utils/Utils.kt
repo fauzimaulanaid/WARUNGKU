@@ -4,6 +4,8 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
+import androidx.appcompat.app.AlertDialog
+import com.fauzimaulana.warungku.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -33,5 +35,17 @@ object Utils {
         inputStream.close()
 
         return myFile
+    }
+
+    fun showAlertNoInternet(context: Context) {
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        with(alertDialogBuilder) {
+            setTitle(context.resources.getString(R.string.no_internet_title))
+            setMessage(context.resources.getString(R.string.no_internet_message))
+            setCancelable(false)
+            setPositiveButton(context.getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
+        }
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 }

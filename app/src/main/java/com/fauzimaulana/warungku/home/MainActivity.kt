@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzimaulana.warungku.R
@@ -12,6 +13,7 @@ import com.fauzimaulana.warungku.addupdate.AddUpdateActivity
 import com.fauzimaulana.warungku.databinding.ActivityMainBinding
 import com.fauzimaulana.warungku.login.LoginActivity
 import com.fauzimaulana.warungku.model.Store
+import com.fauzimaulana.warungku.utils.CheckNetworkConnection
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -48,6 +50,12 @@ class MainActivity : AppCompatActivity() {
         adapter = StoreAdapter(options)
         binding.rvStore.adapter = adapter
         adapter.startListening()
+        val isConnected: Boolean = CheckNetworkConnection().networkCheck(this)
+        if (isConnected) {
+            binding.viewNoInternet.root.visibility = View.GONE
+        } else {
+            binding.viewNoInternet.root.visibility = View.VISIBLE
+        }
 
         binding.fabAdd.setOnClickListener {
             val intent = Intent(this, AddUpdateActivity::class.java)

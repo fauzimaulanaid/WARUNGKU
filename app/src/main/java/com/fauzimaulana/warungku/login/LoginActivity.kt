@@ -23,6 +23,8 @@ import com.fauzimaulana.warungku.R
 import com.fauzimaulana.warungku.databinding.ActivityLoginBinding
 import com.fauzimaulana.warungku.home.MainActivity
 import com.fauzimaulana.warungku.register.RegisterActivity
+import com.fauzimaulana.warungku.utils.CheckNetworkConnection
+import com.fauzimaulana.warungku.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -57,7 +59,12 @@ class LoginActivity : AppCompatActivity() {
                     binding.emailEditTextLayout.error = resources.getString(R.string.email_invalid_format)
                 }
                 else -> {
-                    userLogin(email, password)
+                    val isConnected: Boolean = CheckNetworkConnection().networkCheck(this)
+                    if (isConnected) {
+                        userLogin(email, password)
+                    } else {
+                        Utils.showAlertNoInternet(this)
+                    }
                 }
             }
         }

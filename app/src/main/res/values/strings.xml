@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">WARUNGKU</string>
-
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="email">Email</string>
@@ -12,7 +11,6 @@
     <string name="hint_retype_password">Retype your password for confirmation</string>
     <string name="copyright">©2022 Muhammad Fauzi Maulana</string>
     <string name="test">Test</string>
-
     <string name="email_empty">Email cannot be empty</string>
     <string name="email_invalid_format">Invalid email format</string>
     <string name="email_registered">Email already used</string>
@@ -20,37 +18,35 @@
     <string name="password_error">Password must at least 6 character</string>
     <string name="retype_password_empty">You should confirm your password by retype it</string>
     <string name="password_different">Password does not match</string>
-
     <string name="logout">Logout</string>
     <string name="alert">Alert</string>
     <string name="logout_confirmation">Are you sure want to logout?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
-    <string name="restaurant_name">Restaurant Name</string>
+    <string name="restaurant_name">Store Name</string>
     <string name="Address">Address</string>
     <string name="coordinate">Coordinate</string>
-    <string name="image_shop">Image of Shop</string>
+    <string name="image_shop">Image of Store</string>
     <string name="edit">Edit</string>
-
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="add">Add</string>
     <string name="update">Update</string>
-    <string name="hint_restaurant_name">Please input your restaurant name</string>
+    <string name="hint_restaurant_name">Please input your store name</string>
     <string name="hint_coordinate">Please use the right button for get your coordinate</string>
-    <string name="hint_address">Please input your restaurant address</string>
+    <string name="hint_address">Please input your store address</string>
     <string name="get_coordinate">Get coordinate</string>
     <string name="submit">Submit</string>
-
     <string name="name_empty">Store name cannot be empty</string>
     <string name="coordinate_empty">Coordinate cannot be empty</string>
     <string name="address_empty">Address cannot be empty</string>
     <string name="add_store">Add Store</string>
-
     <string name="coordinate_placeholder">%f, %f</string>
     <string name="delete">Delete</string>
-
     <string name="save">Save</string>
-
+    <string name="changed_lost">Change will be lost</string>
+    <string name="confirmation">Are you sure want to cancel?</string>
+    <string name="ok">OK</string>
+    <string name="no_internet_title">There is no internet</string>
+    <string name="no_internet_message">Please check your connection!</string>
 </resources>
