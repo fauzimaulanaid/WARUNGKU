@@ -49,4 +49,5 @@
     <string name="ok">OK</string>
     <string name="no_internet_title">There is no internet</string>
     <string name="no_internet_message">Please check your connection!</string>
+    <string name="auth_failed">Authentication failed.</string>
 </resources>
