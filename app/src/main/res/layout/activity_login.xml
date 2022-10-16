@@ -23,6 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/shopAnimation"
             android:layout_width="300dp"
             android:layout_height="300dp"
             app:lottie_fileName="shop.json"
